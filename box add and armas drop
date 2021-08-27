@@ -1,0 +1,167 @@
+#include maps/mp/_utility;
+#include maps/mp/_visionset_mgr;
+#include maps/mp/_music;
+#include common_scripts/utility;
+#include maps/mp/gametypes_zm/_hud_util;
+#include maps/mp/gametypes_zm/_hud_message;
+#include maps/mp/gametypes_zm/_gv_actions;
+#include maps/mp/zombies/_zm;
+#include maps/mp/zombies/_zm_utility;
+#include maps/mp/zombies/_zm_weapons;
+#include maps/mp/zombies/_zm_audio;
+#include maps/mp/animscripts/zm_combat;
+#include maps/mp/animscripts/zm_utility;
+#include maps/mp/animscripts/utility;
+#include maps/mp/animscripts/shared;
+
+init()
+{
+    precacheshader("damage_feedback");
+    level thread onPlayerConnect();
+}
+ onPlayerConnect()
+{
+    for(;;)
+    {
+        level waittill("connected", player);
+        player thread box_add();
+        player thread ww_limit();
+        player thread jetgun_quest();
+        player thread drop();
+        player thread quickrevive();
+        player thread shield_hud();
+    }
+}
+box_add()
+{
+	level.zombie_include_weapons["jetgun_zm"] = 1;
+	level.zombie_weapons["jetgun_zm"].is_in_box = 1;
+
+	level.zombie_include_weapons["tazer_knuckles_zm"] = 1;
+	level.zombie_weapons["tazer_knuckles_zm"].is_in_box = 1;
+
+	level.zombie_include_weapons["claymore_zm"] = 1;
+	level.zombie_weapons["claymore_zm"].is_in_box = 1;
+	
+	level.zombie_include_weapons["riotshield_zm"] = 1;
+	level.zombie_weapons["riotshield_zm"].is_in_box = 1;
+	
+	level.zombie_include_weapons["mp5k_zm"] = 1;
+	level.zombie_weapons["mp5k_zm"].is_in_box = 1;
+	
+	level.zombie_include_weapons["m1911_upgraded_zm"] = 1;
+	level.zombie_weapons["m1911_upgraded_zm"].is_in_box = 1;
+	
+	level.zombie_include_weapons["m1911_zm"] = 1;
+	level.zombie_weapons["m1911_zm"].is_in_box = 1;
+	
+	level.zombie_include_weapons["m1911lh_upgraded_zm"] = 1;
+	level.zombie_weapons["m1911lh_upgraded_zm"].is_in_box = 1;
+	
+	level.zombie_include_weapons["minigun_alcatraz_zm"] = 1;
+	level.zombie_weapons["minigun_alcatraz_zm"].is_in_box = 1;
+	
+	level.zombie_include_weapons["tomb_shield_zm"] = 1;
+	level.zombie_weapons["tomb_shield_zm"].is_in_box = 1;
+	
+	level.zombie_include_weapons["alcatraz_shield_zm"] = 1;
+	level.zombie_weapons["alcatraz_shield_zm"].is_in_box = 1;
+}
+ww_limit()
+{
+	level.limited_weapons = [];
+	level._limited_equipment = []; // For Jet Gun table pick up
+}
+jetgun_quest()
+{
+	level endon("end_game");
+	self endon("disconnect");
+	for(;;)
+	{
+		if(self getcurrentweapon() == "jetgun_zm") 
+		{
+			self setweaponoverheating(0,0);
+			level.zombies_vars["jetgun_grind_range"] = 256;
+		}  
+		wait 0.05;
+	}
+}
+drop()
+{
+	level endon("end_game");
+	self endon("disconnect");
+	for (;;) 
+	{
+		if (self meleebuttonpressed()) 
+		{
+			duration = 0;
+			while (self meleebuttonpressed()) 
+			{
+				duration += 1;
+				if (duration == 25) 
+				{
+					weap = self getCurrentWeapon();
+					self dropItem(weap);
+					break;
+				}
+				wait 0.05;
+			}
+		}
+		wait 0.05;
+	}
+}
+quickrevive()
+{
+	level endon("end_game");
+	self endon("disconnect");
+	for (;;)
+	{
+		if (self hasperk("specialty_quickrevive") && self.health < self.maxHealth)
+		{
+			self.health += 1;
+		}
+		wait 0.1;
+	}
+}
+shield_hud()
+{
+	level endon("end_game");
+	self endon("disconnect");
+	flag_wait("initial_blackscreen_passed");
+
+	shield_text = self createprimaryprogressbartext();
+	shield_text setpoint(undefined, "BOTTOM", +205, +15);
+	shield_text.hidewheninmenu = 1;
+	
+	shield_hud = newClientHudElem(self);
+	shield_hud.alignx = "right";
+	shield_hud.aligny = "bottom";
+	shield_hud.horzalign = "user_right";
+	shield_hud.vertalign = "user_bottom";
+	shield_hud.x -= 175;
+	shield_hud.alpha = 0;
+	shield_hud.color = (1, 1, 1);
+	shield_hud.hidewheninmenu = 1;
+	shield_hud setShader("damage_feedback", 32, 32); // YOUR OWN TEXTURE HERE
+
+	for(;;)
+	{
+		if (self hasweapon("riotshield_zm") || self hasweapon("alcatraz_shield_zm") || self hasweapon("tomb_shield_zm"))
+		{
+			shield_text.alpha = 1;
+			shield_hud.alpha = 1;
+		}
+		else
+		{
+			shield_text.alpha = 0;
+			shield_hud.alpha = 0;
+		}
+		shield_text setvalue(2250 - self.shielddamagetaken);
+		wait 0.05;
+		
+		if(self.shielddamagetaken >= 2250)
+		{
+			shield_text.alpha = 0;
+		}
+	}
+}
