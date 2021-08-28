@@ -55,6 +55,9 @@ box_add()
 	level.zombie_include_weapons["alcatraz_shield_zm"] = 1;
 	level.zombie_weapons["alcatraz_shield_zm"].is_in_box = 1;
 	
+	level.zombie_include_weapons["blundergat_zm"] = 1;
+	level.zombie_weapons["blundergat_zm"].is_in_box = 1;
+	
 	while(level.round_number < 15) wait 0.01;
 	
 	level.zombie_include_weapons["m1911_upgraded_zm"] = 1;
@@ -173,9 +176,6 @@ box_add()
 	
 	level.zombie_include_weapons["mg08_upgraded_zm"] = 1;
 	level.zombie_weapons["mg08_upgraded_zm"].is_in_box = 1;
-	
-	level.zombie_include_weapons["m1911_upgraded_zm"] = 1;
-	level.zombie_weapons["m1911_upgraded_zm"].is_in_box = 1;
 	
 	level.zombie_include_weapons["minigun_alcatraz_upgraded_zm"] = 1;
 	level.zombie_weapons["minigun_alcatraz_upgraded_zm"].is_in_box = 1;
