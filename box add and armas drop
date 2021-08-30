@@ -331,13 +331,13 @@ drop()
 	self endon("disconnect");
 	for (;;) 
 	{
-	if(self sprintbuttonpressed())
+	if(self meleebuttonpressed())
 		{
 			duration = 0;
-			while (self sprintbuttonpressed())
+			while (self meleebuttonpressed())
 			{
 				duration += 1;
-				if (duration == 25) 
+				if (duration == 110) 
 				{
 					weap = self getCurrentWeapon();
 					self dropItem(weap);
