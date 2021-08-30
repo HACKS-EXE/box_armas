@@ -58,8 +58,6 @@ box_add()
 	level.zombie_include_weapons["blundergat_zm"] = 1;
 	level.zombie_weapons["blundergat_zm"].is_in_box = 1;
 	
-	while(level.round_number < 15) wait 0.01;
-	
 	level.zombie_include_weapons["m1911_upgraded_zm"] = 1;
 	level.zombie_weapons["m1911_upgraded_zm"].is_in_box = 1;
 	
@@ -92,12 +90,6 @@ box_add()
 	
 	level.zombie_include_weapons["beretta93r_upgraded_zm"] = 1;
 	level.zombie_weapons["beretta93r_upgraded_zm"].is_in_box = 1;
-	
-	level.zombie_include_weapons["m1911lh_upgraded_zm"] = 1;
-	level.zombie_weapons["m1911lh_upgraded_zm"].is_in_box = 1;
-	
-	level.zombie_include_weapons["m1911lh_upgraded_zm"] = 1;
-	level.zombie_weapons["m1911lh_upgraded_zm"].is_in_box = 1;
 	
 	level.zombie_include_weapons["blundergat_upgraded_zm"] = 1;
 	level.zombie_weapons["blundergat_upgraded_zm"].is_in_box = 1;
@@ -167,9 +159,6 @@ box_add()
 	
 	level.zombie_include_weapons["m16_gl_upgraded_zm"] = 1;
 	level.zombie_weapons["m16_gl_upgraded_zm"].is_in_box = 1;
-	
-	level.zombie_include_weapons["m1911lh_upgraded_zm"] = 1;
-	level.zombie_weapons["m1911lh_upgraded_zm"].is_in_box = 1;
 	
 	level.zombie_include_weapons["m32_upgraded_zm"] = 1;
 	level.zombie_weapons["m32_upgraded_zm"].is_in_box = 1;
